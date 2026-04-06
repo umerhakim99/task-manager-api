@@ -1,0 +1,82 @@
+{% comment %} {% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+<body>
+
+    <h1>My Navbar</h1>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>My Footer</footer>
+
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Django App</title>
+</head>
+<body>
+
+    <h1>My Django Project</h1>
+
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/contact/">Contact</a> |
+        <a href="/messages/">Messages</a> |
+
+        {% if user.is_authenticated %}
+            <span>Welcome,  {{ user.username }}</span> |
+            <!-- <a href="/accounts/logout/">Logout</a> -->
+
+
+           <form method="post" action="{% url 'logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" style="background:none;border:none;color:blue;cursor:pointer;">
+        Logout
+    </button>
+</form>
+
+        {% else %}
+            <a href="/accounts/login/">Login</a>
+        {% endif %}
+    </nav>
+
+    <hr>
+
+
+
+
+
+
+
+    {% if messages %}
+    {% for message in messages %}
+        <div style="padding:10px; margin:10px 0; background-color:#d4edda; color:#155724; border-radius:5px;">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+
+
+
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>
+
+

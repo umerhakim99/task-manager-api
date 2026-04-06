@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+
+{% comment %} {% block content %}
+<h2>Contact</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %} {% endcomment %}
+
+
+{% comment %} {% extends 'blog/base.html' %}
+
+{% block content %}
+<h2>Contact Us</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send</button>
+</form>
+
+{% endblock %}
+
+
+ {% endcomment %}
+
+
+ <h2>Contact Form</h2>
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+
+    {{ form.non_field_errors }}
+
+    <p>
+        Name:<br>
+        {{ form.name }}
+        {{ form.name.errors }}
+    </p>
+
+    <p>
+        Email:<br>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </p>
+
+    <p>
+        Message:<br>
+        {{ form.message }}
+        {{ form.message.errors }}
+    </p>
+
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

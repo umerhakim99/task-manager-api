@@ -1,0 +1,212 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h2>Messages</h2>
+
+<div>
+    <strong>Sort By:</strong>
+
+    <a href="?sort=name{% if search_query %}&q={{ search_query }}{% endif %}">
+        Name
+    </a> |
+
+    <a href="?sort=email{% if search_query %}&q={{ search_query }}{% endif %}">
+        Email
+    </a> |
+
+    <a href="?{% if search_query %}q={{ search_query }}{% endif %}">
+        Newest
+    </a>
+</div>
+
+
+
+
+<form method="GET">
+    <input type="text" name="q" placeholder="Search"
+           value="{{ search_query }}">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+
+
+
+
+
+{% for contact in page_obj %}
+    <p>
+        <strong> {{forloop.counter }} - {{ contact.name }}</strong> <br>
+        {{ contact.email }} <br>
+        {{ contact.message }} <br>
+
+        <a href="/edit/{{ contact.id }}/">Edit</a> |
+        <a href="/delete/{{ contact.id }}/">Delete</a>
+    </p>
+    <hr>
+{% empty %}
+    <p>No messages found.</p>
+{% endfor %}
+
+
+
+
+
+{% comment %} PAGINATION CONTROLS {% endcomment %}
+{% comment %} 
+<div style="margin-top:20px;">
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+
+    <span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+
+</div> {% endcomment %}
+
+
+
+
+
+
+
+<hr>
+
+<div style="margin-top:20px;">
+
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}
+{% if search_query %}&q={{ search_query }}{% endif %}
+{% if sort %}&sort={{ sort }}{% endif %}">
+Previous
+</a>
+{% endif %}
+
+
+{% for num in page_obj.paginator.page_range %}
+
+    {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+
+        {% if page_obj.number == num %}
+            <strong style="margin:5px;">{{ num }}</strong>
+        {% else %}
+            <a style="margin:5px;"
+               href="?page={{ num }}
+               {% if search_query %}&q={{ search_query }}{% endif %}
+               {% if sort %}&sort={{ sort }}{% endif %}">
+                {{ num }}
+            </a>
+        {% endif %}
+
+    {% endif %}
+
+{% endfor %}
+
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}
+{% if search_query %}&q={{ search_query }}{% endif %}
+{% if sort %}&sort={{ sort }}{% endif %}">
+Next
+</a>
+{% endif %}
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <hr>
+
+<div>
+
+{% if page_obj.has_previous %}
+
+    <a href="?page=1">First</a>
+
+    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+
+{% for num in page_obj.paginator.page_range %}
+
+    {% if page_obj.number == num %}
+        <strong>{{ num }}</strong>
+    {% else %}
+        <a href="?page={{ num }}">{{ num }}</a>
+    {% endif %}
+
+{% endfor %}
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+
+    <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+
+{% endif %}
+
+</div> {% endcomment %}
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+<!-- <h2>Contact Messages</h2>
+
+{% for contact in contacts %}
+    <p> {{forloop.counter }}  {{ contact.name }} - </br> {{ contact.email }} -</br> {{ contact.message }}</p>
+{% endfor %}
+
+
+
+
+{% for contact in contacts %}
+    <p>
+       {{ forloop.counter }}
+        {{ contact.name }} - {{ contact.email }}
+       {% if user.is_authenticated %}
+    <a href="/edit/{{ contact.id }}/">Edit</a>
+    <a href="/delete/{{ contact.id }}/">Delete</a>
+{% endif %}
+    </p>
+{% endfor %}
+
+
+
+
+<form method="post" action="/accounts/logout/">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+
+
+<a href="{% url 'home' %}">
+<button type="submit">Back To Home</button>
+</a> -->
