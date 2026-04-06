@@ -35,7 +35,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'umer.pythonanywhere.com']
 
 
 # Application definition
