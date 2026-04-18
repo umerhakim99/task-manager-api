@@ -1,212 +1,133 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<h2>Messages</h2>
 
-<div>
-    <strong>Sort By:</strong>
-
-    <a href="?sort=name{% if search_query %}&q={{ search_query }}{% endif %}">
-        Name
-    </a> |
-
-    <a href="?sort=email{% if search_query %}&q={{ search_query }}{% endif %}">
-        Email
-    </a> |
-
-    <a href="?{% if search_query %}q={{ search_query }}{% endif %}">
-        Newest
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="page-title mb-0">My <span>Contacts</span></h1>
+    <a href="/contact/" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>Add New
     </a>
 </div>
 
-
-
-
-<form method="GET">
-    <input type="text" name="q" placeholder="Search"
-           value="{{ search_query }}">
-    <button type="submit">Search</button>
-</form>
-
-<hr>
-
-
-
-
-
-
-{% for contact in page_obj %}
-    <p>
-        <strong> {{forloop.counter }} - {{ contact.name }}</strong> <br>
-        {{ contact.email }} <br>
-        {{ contact.message }} <br>
-
-        <a href="/edit/{{ contact.id }}/">Edit</a> |
-        <a href="/delete/{{ contact.id }}/">Delete</a>
-    </p>
-    <hr>
-{% empty %}
-    <p>No messages found.</p>
-{% endfor %}
-
-
-
-
-
-{% comment %} PAGINATION CONTROLS {% endcomment %}
-{% comment %} 
-<div style="margin-top:20px;">
-
-    {% if page_obj.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-    {% endif %}
-
-    <span>
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-    {% endif %}
-
-</div> {% endcomment %}
-
-
-
-
-
-
-
-<hr>
-
-<div style="margin-top:20px;">
-
-{% if page_obj.has_previous %}
-<a href="?page={{ page_obj.previous_page_number }}
-{% if search_query %}&q={{ search_query }}{% endif %}
-{% if sort %}&sort={{ sort }}{% endif %}">
-Previous
-</a>
-{% endif %}
-
-
-{% for num in page_obj.paginator.page_range %}
-
-    {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
-
-        {% if page_obj.number == num %}
-            <strong style="margin:5px;">{{ num }}</strong>
-        {% else %}
-            <a style="margin:5px;"
-               href="?page={{ num }}
-               {% if search_query %}&q={{ search_query }}{% endif %}
-               {% if sort %}&sort={{ sort }}{% endif %}">
-                {{ num }}
-            </a>
-        {% endif %}
-
-    {% endif %}
-
-{% endfor %}
-
-
-{% if page_obj.has_next %}
-<a href="?page={{ page_obj.next_page_number }}
-{% if search_query %}&q={{ search_query }}{% endif %}
-{% if sort %}&sort={{ sort }}{% endif %}">
-Next
-</a>
-{% endif %}
-
+<div class="card mb-4">
+    <div class="card-body p-3">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+                <form method="GET" class="d-flex gap-2">
+                    <input type="text" name="q" class="form-control"
+                           placeholder="Search contacts..."
+                           value="{{ search_query|default:'' }}">
+                    <button type="submit" class="btn btn-primary px-3">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    {% if search_query %}
+                        <a href="/messages/" class="btn btn-outline-secondary px-3">
+                            <i class="bi bi-x"></i>
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex align-items-center gap-2 justify-content-md-end">
+                    <span class="text-muted small">Sort by:</span>
+                    <a href="?sort=name{% if search_query %}&q={{ search_query }}{% endif %}"
+                       class="btn btn-sm {% if sort == 'name' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Name</a>
+                    <a href="?sort=email{% if search_query %}&q={{ search_query }}{% endif %}"
+                       class="btn btn-sm {% if sort == 'email' %}btn-primary{% else %}btn-outline-secondary{% endif %}">Email</a>
+                    <a href="?{% if search_query %}q={{ search_query }}{% endif %}"
+                       class="btn btn-sm {% if not sort %}btn-primary{% else %}btn-outline-secondary{% endif %}">Newest</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
+{% if page_obj %}
+    <div class="row g-3">
+        {% for contact in page_obj %}
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-4">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div style="width:50px; height:50px; background:linear-gradient(135deg,#1a1a2e,#e94560); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700;">
+                                {{ contact.name|first|upper }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <h6 class="mb-1" style="color:#1a1a2e;">{{ contact.name }}</h6>
+                            <div class="text-muted small">
+                                <i class="bi bi-envelope me-1"></i>{{ contact.email }}
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <i class="bi bi-chat-text me-1"></i>{{ contact.message|truncatechars:80 }}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="d-flex gap-2">
+                                <a href="/edit/{{ contact.id }}/" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a href="/delete/{{ contact.id }}/" class="btn btn-sm btn-outline-danger" title="Delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
-
-
-
-
-
-
-
-
-
-
-{% comment %} <hr>
-
-<div>
-
-{% if page_obj.has_previous %}
-
-    <a href="?page=1">First</a>
-
-    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-{% endif %}
-
-{% for num in page_obj.paginator.page_range %}
-
-    {% if page_obj.number == num %}
-        <strong>{{ num }}</strong>
-    {% else %}
-        <a href="?page={{ num }}">{{ num }}</a>
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
     {% endif %}
 
-{% endfor %}
-
-{% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">Next</a>
-
-    <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-
+{% else %}
+    <div class="card text-center p-5">
+        <div style="font-size:3rem; color:#dee2e6;" class="mb-3">
+            <i class="bi bi-inbox"></i>
+        </div>
+        <h5 style="color:#6c757d;">No contacts found</h5>
+        <p class="text-muted small">
+            {% if search_query %}
+                No contacts match "{{ search_query }}". <a href="/messages/">Clear search</a>
+            {% else %}
+                You have no contacts yet. <a href="/contact/">Add your first contact</a>
+            {% endif %}
+        </p>
+    </div>
 {% endif %}
 
-</div> {% endcomment %}
-
-
-
-
-
+<style>
+    .page-link { color:#1a1a2e; border-radius:8px !important; margin:0 2px; }
+    .page-item.active .page-link { background:#e94560; border-color:#e94560; }
+    .page-link:hover { color:#e94560; }
+</style>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-<!-- <h2>Contact Messages</h2>
-
-{% for contact in contacts %}
-    <p> {{forloop.counter }}  {{ contact.name }} - </br> {{ contact.email }} -</br> {{ contact.message }}</p>
-{% endfor %}
-
-
-
-
-{% for contact in contacts %}
-    <p>
-       {{ forloop.counter }}
-        {{ contact.name }} - {{ contact.email }}
-       {% if user.is_authenticated %}
-    <a href="/edit/{{ contact.id }}/">Edit</a>
-    <a href="/delete/{{ contact.id }}/">Delete</a>
-{% endif %}
-    </p>
-{% endfor %}
-
-
-
-
-<form method="post" action="/accounts/logout/">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
-
-
-
-<a href="{% url 'home' %}">
-<button type="submit">Back To Home</button>
-</a> -->

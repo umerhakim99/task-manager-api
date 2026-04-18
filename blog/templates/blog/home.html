@@ -1,23 +1,91 @@
 {% extends 'blog/base.html' %}
+
 {% block content %}
-<h2>Home Page</h2>
-<p>Welcome to the home page.</p>
+
+<div class="row align-items-center py-5">
+    <div class="col-lg-6">
+        <h1 class="page-title" style="font-size:2.8rem; line-height:1.2;">
+            Manage Your<br><span>Contacts</span><br>Effortlessly
+        </h1>
+        <p class="text-muted mb-4" style="font-size:1.1rem; line-height:1.7;">
+            A simple and powerful contact management system. Store, search, and organize all your contacts in one place.
+        </p>
+        {% if user.is_authenticated %}
+            <div class="d-flex gap-3">
+                <a href="/contact/" class="btn btn-primary px-4 py-2">
+                    <i class="bi bi-plus-circle me-2"></i>Add Contact
+                </a>
+                <a href="/messages/" class="btn btn-outline-secondary px-4 py-2">
+                    <i class="bi bi-envelope me-2"></i>View Messages
+                </a>
+            </div>
+        {% else %}
+            <a href="/accounts/login/" class="btn btn-primary px-4 py-2">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login to Get Started
+            </a>
+        {% endif %}
+    </div>
+    <div class="col-lg-6 mt-4 mt-lg-0">
+        <div class="card p-4" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+            <div class="text-white">
+                <div class="d-flex align-items-center mb-3">
+                    <div style="width:40px; height:40px; background:rgba(233,69,96,0.2); border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                        <i class="bi bi-people-fill text-danger"></i>
+                    </div>
+                    <h6 class="ms-3 mb-0 text-white">Contact Manager</h6>
+                </div>
+                <hr style="border-color:rgba(255,255,255,0.1);">
+                <div class="d-flex flex-column gap-2">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span style="color:rgba(255,255,255,0.8); font-size:0.9rem;">Add & manage contacts</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span style="color:rgba(255,255,255,0.8); font-size:0.9rem;">Search & filter instantly</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span style="color:rgba(255,255,255,0.8); font-size:0.9rem;">Sort by name or email</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span style="color:rgba(255,255,255,0.8); font-size:0.9rem;">Secure & private</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 g-4">
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div style="width:60px; height:60px; background:#fff0f3; border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                <i class="bi bi-shield-lock" style="font-size:1.5rem; color:#e94560;"></i>
+            </div>
+            <h5 style="font-family:'Playfair Display',serif; color:#1a1a2e;">Secure</h5>
+            <p class="text-muted small">Your contacts are private and only visible to you.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div style="width:60px; height:60px; background:#f0f8ff; border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                <i class="bi bi-search" style="font-size:1.5rem; color:#0d6efd;"></i>
+            </div>
+            <h5 style="font-family:'Playfair Display',serif; color:#1a1a2e;">Searchable</h5>
+            <p class="text-muted small">Find any contact instantly with powerful search.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 p-4 text-center">
+            <div style="width:60px; height:60px; background:#f0fff4; border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                <i class="bi bi-lightning-charge" style="font-size:1.5rem; color:#198754;"></i>
+            </div>
+            <h5 style="font-family:'Playfair Display',serif; color:#1a1a2e;">Fast</h5>
+            <p class="text-muted small">Built by  with Django for speed and reliability.</p>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
-
-
-
-
-
-{% comment %} {% extends 'blog/base.html' %}
-
-
-{% block content  %}
-<h1>Welcome to My Website</h1>
-<p>This is my first template.</p>
-
-{% endblock %} {% endcomment %}
-
-
-
-
-

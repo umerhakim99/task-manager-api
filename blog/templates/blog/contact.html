@@ -1,59 +1,53 @@
 {% extends 'blog/base.html' %}
 
-{% comment %} {% block content %}
-<h2>Contact</h2>
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-{% endblock %} {% endcomment %}
-
-
-{% comment %} {% extends 'blog/base.html' %}
-
 {% block content %}
-<h2>Contact Us</h2>
-
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Send</button>
-</form>
-
-{% endblock %}
-
-
- {% endcomment %}
-
-
- <h2>Contact Form</h2>
-{% block content %}
-<form method="POST">
-    {% csrf_token %}
-
-    {{ form.non_field_errors }}
-
-    <p>
-        Name:<br>
-        {{ form.name }}
-        {{ form.name.errors }}
-    </p>
-
-    <p>
-        Email:<br>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </p>
-
-    <p>
-        Message:<br>
-        {{ form.message }}
-        {{ form.message.errors }}
-    </p>
-
-    <button type="submit">Submit</button>
-</form>
-
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <h1 class="page-title">Add <span>Contact</span></h1>
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-person-plus me-2"></i>New Contact
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label class="form-label fw-500"><i class="bi bi-person me-1 text-muted"></i>Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}<div class="text-danger small mt-1">{{ form.name.errors }}</div>{% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500"><i class="bi bi-envelope me-1 text-muted"></i>Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}<div class="text-danger small mt-1">{{ form.email.errors }}</div>{% endif %}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-500"><i class="bi bi-chat-text me-1 text-muted"></i>Message</label>
+                        {{ form.message }}
+                        {% if form.message.errors %}<div class="text-danger small mt-1">{{ form.message.errors }}</div>{% endif %}
+                    </div>
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-check-circle me-2"></i>Save Contact
+                        </button>
+                        <a href="/messages/" class="btn btn-outline-secondary px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    input[type="text"], input[type="email"], textarea {
+        width:100%; padding:0.6rem 1rem; border:1.5px solid #dee2e6;
+        border-radius:8px; font-family:'DM Sans',sans-serif; transition:border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+        outline:none; border-color:#e94560; box-shadow:0 0 0 0.2rem rgba(233,69,96,0.15);
+    }
+    textarea { min-height:120px; resize:vertical; }
+</style>
 {% endblock %}
