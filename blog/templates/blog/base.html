@@ -54,6 +54,12 @@
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.85rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .welcome-badge:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
         }
         .main-content {
             padding: 2.5rem 0;
@@ -128,13 +134,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/messages/"><i class="bi bi-envelope me-1"></i>Messages</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/profile/"><i class="bi bi-person me-1"></i>Profile</a>
+                </li>
                 {% endif %}
             </ul>
             <div class="d-flex align-items-center gap-3">
                 {% if user.is_authenticated %}
-                    <span class="welcome-badge">
+                    <a href="/accounts/profile/" class="welcome-badge">
                         <i class="bi bi-person-circle me-1"></i>{{ user.username }}
-                    </span>
+                    </a>
                     <form method="post" action="{% url 'logout' %}" class="m-0">
                         {% csrf_token %}
                         <button type="submit" class="btn-logout">
@@ -142,7 +151,10 @@
                         </button>
                     </form>
                 {% else %}
-                    <a href="/accounts/login/" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                    <a href="/accounts/register/" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                        <i class="bi bi-person-plus me-1"></i>Register
+                    </a>
+                    <a href="/accounts/login/" class="btn btn-sm rounded-pill px-3" style="background:#e94560; color:#fff; border:none;">
                         <i class="bi bi-box-arrow-in-right me-1"></i>Login
                     </a>
                 {% endif %}
@@ -170,7 +182,7 @@
 
 <footer>
     <div class="container">
-        <p class="mb-0">Built by MRr <span>♥</span> with  using Django &amp; Bootstrap 5</p>
+        <p class="mb-0">Built by MRr <span>♥</span> with using Django &amp; Bootstrap 5</p>
     </div>
 </footer>
 
